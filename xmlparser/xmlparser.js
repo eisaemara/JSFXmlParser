@@ -71,8 +71,13 @@ exports.parse = function(file, taskflowName) {
         const compId = props['id']; //cannot be null
         const genKey = (taskflowName + '_' + PAGE_NAME + '_' + compId).toUpperCase();
         props[labelAttr] = ("#{messages['" + genKey + "']}");
-
         script.push("exec Add_Resource_Key('" + genKey + "','" + labelValue + "','" + labelValue + "');\n");
+        if (componentName === 'oasis:OasisListOfValues') {
+            let placeHolderMsgId = (taskflowName + '_' + PAGE_NAME + '_placeholder_' + compId).toUpperCase();
+            let placeHolder = props['placeHolder'] ? props['placeHolder'] : 'enter your search here';
+            props['placeHolder'] = ("#{messages['" + placeHolderMsgId + "']}");
+            script.push("exec Add_Resource_Key('" + placeHolderMsgId + "','" + placeHolder + "','" + placeHolder + "');\n");
+        }
         //exec Add_Resource_Key('TESTKEY','TEST','تجربة');
 
 
